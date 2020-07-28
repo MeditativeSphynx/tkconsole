@@ -1,6 +1,6 @@
+import time
 import tkinter as tk
-
-from Console import q
+from tkinter.font import Font
 
 
 class Root(tk.Tk):
@@ -11,7 +11,20 @@ class Root(tk.Tk):
 
 
 class ConsoleFrame(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master, q):
         super().__init__(master)
+        # self.font = Font(family='Cascadia Code', size=11)
+        self.font = Font(family='Fira Mono', size=11)
         self.master = master
-        self.output_queue = q
+        self.q = q
+
+        self.pack(fill=tk.BOTH, expand=1)
+
+        self.text = tk.Text(self)
+        self.text['font'] = self.font
+        self.text['bg'] = 'black'
+        self.text['fg'] = 'white'
+        self.text.pack(fill=tk.BOTH, expand=1)
+
+        self.after(5, self.update_text)
+
