@@ -28,11 +28,3 @@ class ConsoleFrame(tk.Frame):
 
         self.after(5, self.update_text)
 
-    def update_text(self):
-        while not self.q.empty():
-            input_val = self.q.get()
-            self.text.insert(tk.END, '[NEW    ]  ' + input_val + '\n')
-            self.text.see(tk.END)
-            self.q.task_done()
-            time.sleep(.3)
-        self.after(5, self.update_text)
