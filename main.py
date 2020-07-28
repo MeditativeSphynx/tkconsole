@@ -8,7 +8,7 @@ from faker import Faker
 
 from Console import interface
 
-QUEUE = Queue(1000)
+QUEUE = Queue(100)
 
 
 class DataGen:
@@ -17,9 +17,6 @@ class DataGen:
     def hash_data(self, val):
         val_str = str(val)
         return hashlib.md5(val_str.encode()).hexdigest(), val_str
-
-    def check_status(self):
-        pass
 
     def stop(self):
         self.STOP_FLAG = True
@@ -40,11 +37,11 @@ class DataGen:
             QUEUE.put(val_hash_combo)
 
             total_time = time() - start
-            self.STOP_FLAG = True if total_time > 60 else self.STOP_FLAG
+            self.STOP_FLAG = True if total_time > 15 else self.STOP_FLAG
             if self.STOP_FLAG: break
 
             # sleep(wait_time)
-            sleep(.1)
+
         print('data generation is complete...')
         QUEUE.put('data generation is complete...')
 
@@ -52,9 +49,11 @@ class DataGen:
 if __name__ == '__main__':
     dg = DataGen()
     data_thread = Thread(target=dg.data_generation)
-    data_thread.start()
 
     ui_root = interface.Root()
     console_frame = interface.ConsoleFrame(ui_root, QUEUE)
+
+    data_thread.start()
     ui_root.mainloop()
+
     dg.stop()
