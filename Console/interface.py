@@ -14,8 +14,8 @@ class Root(tk.Tk):
 class ConsoleFrame(tk.Frame):
     def __init__(self, master, q):
         super().__init__(master)
-        # self.font = Font(family='Cascadia Code', size=11)
-        self.font = Font(family='Fira Mono', size=11)
+        self.font = Font(family='Cascadia Code', size=11)
+        # self.font = Font(family='Fira Mono', size=11)
         self.master = master
         self.q = q
 
