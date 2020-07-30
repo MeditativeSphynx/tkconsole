@@ -1,7 +1,6 @@
 import time
 import tkinter as tk
 from tkinter.font import Font
-from threading import Thread
 
 
 class Root(tk.Tk):
@@ -32,29 +31,15 @@ class ConsoleFrame(tk.Frame):
         self.after(5, self.get_data)  # TODO: MAKE THIS A THREAD
 
     def get_data(self):
-        print('[get_data]')
         while not self.q.empty():
             value = self.q.get()
-            # print('[getting]', value)
-
-            try:
-                Thread(target=self.update_text, args=(value,)).start() 
-                # TODO: RUNTIME ERROR OCCURS BECAUSE IT IS TRYING TO START A NEW
-                #   THREAD WITH THE SAME VARIABLE FROM THE PREVIOUS VARIABLE 
-                #   THAT IS STILL ALIVE
-            except RuntimeError:
-                print('[RuntimeError]')
-                break
-
-
-
+            self.update_text(value)
             self.q.task_done()
             if self.q.empty(): break
             
         self.after(100, self.get_data)
 
     def update_text(self, value):
-        print('[value]', value)
+        self.count += 1
         self.text.insert(tk.END, f'[getting ({self.count})] ' + value + '\n')
         self.text.see(tk.END)
-        self.count += 1

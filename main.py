@@ -26,23 +26,20 @@ class DataGen:
         total_time = 0
         start = time()
         while True:
-            # Random wait time for visuals
-            # wait_time = randint(0, 6)
-
             # Set the string and hash values
             val_hash, val_str = self.hash_data(faker.password())
             val_hash_combo = f'{val_hash}:{val_str}'
 
             # Queue them up for output
+            # TODO: Find a way to remove the necessity of this sleep. If this 
+            #   isn't here, the tkinter window freezes. Although the window
+            #   freezes the methods behind the scenes run normally. 
+            sleep(.000001)
             QUEUE.put(val_hash_combo)
 
             total_time = time() - start
-            self.STOP_FLAG = True if total_time > 15 else self.STOP_FLAG
+            self.STOP_FLAG = True if total_time > 1 else self.STOP_FLAG
             if self.STOP_FLAG: break
-
-            # sleep(wait_time)
-
-        print('data generation is complete...')
         QUEUE.put('data generation is complete...')
 
 
